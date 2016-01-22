@@ -1,0 +1,37 @@
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "in.ceeq.social"
+        minSdkVersion 23
+        targetSdkVersion 23
+        versionCode "${version_code}".toInteger()
+        versionName "${version_name}"
+        resValue 'string', 'facebook_app_id', "${facebook_app_id}"
+        buildConfigField 'String', 'TWITTER_CONSUMER_KEY', "\"${twitter_consumer_key}\""
+        buildConfigField 'String', 'TWITTER_CONSUMER_SECRET', "\"${twitter_consumer_secret}\""
+        manifestPlaceholders = [fabric_api_key: "${twitter_fabric_api_key}"]
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.facebook.android:facebook-android-sdk:4.7.0'
+    compile 'com.google.android.gms:play-services-auth:8.4.0'
+    compile('com.twitter.sdk.android:twitter:1.12.0@aar') {
+        transitive = true;
+    }
+    compile project(':linkedin-sdk')
+}
